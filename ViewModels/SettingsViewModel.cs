@@ -50,11 +50,13 @@ public sealed class SettingsViewModel : ObservableObject
         _promptForExecutableOnPlay = current.PromptForExecutableOnPlay;
 
         OpenDataFolderCommand = new RelayCommand(OpenDataFolder);
+        OpenGitHubReleasesCommand = new RelayCommand(OpenGitHubReleases);
     }
 
     public IReadOnlyList<PlatformFilterOption> DiscoverFilterOptions { get; }
     public IReadOnlyList<LibrarySortChoice> LibrarySortOptions { get; }
     public RelayCommand OpenDataFolderCommand { get; }
+    public RelayCommand OpenGitHubReleasesCommand { get; }
 
     public PlatformFilterOption SelectedDiscoverFilter
     {
@@ -125,6 +127,9 @@ public sealed class SettingsViewModel : ObservableObject
     public string LibraryFilePath => AppDataPaths.LibraryFilePath;
     public string SettingsFilePath => AppDataPaths.SettingsFilePath;
     public string CatalogFilePath => _services.Catalog.CatalogPath;
+    public string AppVersionDisplay => _services.Updates.CurrentVersionDisplay;
+    public string AppVersionTag => $"v{_services.Updates.CurrentVersionNumber}";
+    public string GitHubRepoSlug => $"{UpdateService.RepositoryOwner}/{UpdateService.RepositoryName}";
 
     public string CatalogStatsText =>
         _services.Catalog.IsLoaded
@@ -167,6 +172,22 @@ public sealed class SettingsViewModel : ObservableObject
         catch (Exception ex)
         {
             StatusMessage = $"Could not open folder: {ex.Message}";
+        }
+    }
+
+    private void OpenGitHubReleases()
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = UpdateService.ReleasesPageUrl,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Could not open GitHub Releases: {ex.Message}";
         }
     }
 

@@ -18,12 +18,14 @@ public sealed class AppServices
         Catalog = new GameCatalogService();
         Library = new GameLibraryService();
         Launcher = new GameLauncherService(Library, RunOnUiThread);
+        Updates = new UpdateService();
     }
 
     public SettingsService Settings { get; }
     public GameCatalogService Catalog { get; }
     public GameLibraryService Library { get; }
     public GameLauncherService Launcher { get; }
+    public UpdateService Updates { get; }
     public DispatcherQueue? UiDispatcher { get; set; }
 
     public async Task InitializeAsync()

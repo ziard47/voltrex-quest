@@ -56,5 +56,15 @@ public sealed partial class SettingsPage : Page
             await ViewModel.ClearLibraryAsync();
         }
     }
+
+    private async void CheckUpdatesButton_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new UpdateDialog
+        {
+            XamlRoot = XamlRoot
+        };
+
+        await dialog.ShowAsync();
+    }
 }
 
