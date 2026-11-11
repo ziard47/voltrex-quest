@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="voltrex_quest.Views.LibraryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:voltrex_quest.Controls"
+    xmlns:models="using:voltrex_quest.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="32,24,20,0" RowSpacing="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header & Controls -->
+        <Grid Margin="0,0,12,0" ColumnSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Spacing="4">
+                <TextBlock Text="My Games" Style="{ThemeResource TitleLargeTextBlockStyle}" />
+                <TextBlock
+                    Text="{x:Bind ViewModel.LibrarySummary, Mode=OneWay}"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Spacing="10"
+                VerticalAlignment="Center">
+                <TextBox
+                    Width="240"
+                    PlaceholderText="Search my library..."
+                    Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ComboBox
+                    Width="175"
+                    ItemsSource="{x:Bind ViewModel.SortOptions}"
+                    SelectedItem="{x:Bind ViewModel.SelectedSort, Mode=TwoWay}"
+                    DisplayMemberPath="Label" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Status Feedback -->
+        <InfoBar
+            x:Name="LibraryInfoBar"
+            Grid.Row="1"
+            IsOpen="{x:Bind ViewModel.HasStatusMessage, Mode=OneWay}"
+            Message="{x:Bind ViewModel.StatusMessage, Mode=OneWay}"
+            CloseButtonClick="LibraryInfoBar_CloseButtonClick" />
+
+        <!-- Empty Library State -->
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="10"
+            Visibility="{x:Bind ViewModel.IsLibraryEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <FontIcon
+                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                Glyph="&#xE7FC;"
+                FontSize="34"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+            <TextBlock
+                Text="Your personal library is empty"
+                Style="{ThemeResource SubtitleTextBlockStyle}"
+                HorizontalAlignment="Center" />
+            <TextBlock
+                Text="Add games from Discover Games to organize and launch them here."
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                HorizontalAlignment="Center" />
+            <Button
+                Content="Discover Games"
+                Style="{ThemeResource AccentButtonStyle}"
+                HorizontalAlignment="Center"
+                Margin="0,6,0,0"
+                Command="{x:Bind ViewModel.OpenDiscoverCommand}" />
+        </StackPanel>
+
+        <!-- Empty Search State -->
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="10"
+            Visibility="{x:Bind ViewModel.IsSearchEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <FontIcon
+                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                Glyph="&#xE721;"
+                FontSize="32"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+            <TextBlock
+                Text="No library games match your search"
+                Style="{ThemeResource SubtitleTextBlockStyle}"
+                HorizontalAlignment="Center" />
+            <Button
+                Content="Clear Search"
+                HorizontalAlignment="Center"
+                Command="{x:Bind ViewModel.ClearSearchCommand}" />
+        </StackPanel>
+
+        <!-- Library Game Cards -->
+        <GridView
+            x:Name="LibraryGridView"
+            Grid.Row="2"
+            ItemsSource="{x:Bind ViewModel.FilteredGames}"
+            SelectionMode="None"
+            IsItemClickEnabled="False"
+            Padding="0,0,0,24"
+            Loaded="LibraryGridView_Loaded"
+            SizeChanged="LibraryGridView_SizeChanged"
+            ContainerContentChanging="LibraryGridView_ContainerContentChanging"
+            Visibility="{x:Bind ViewModel.ShowLibraryGrid, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="4" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="0,0,12,12" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="models:LibraryGame">
+                    <Border
+                        Height="314"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="12">
+                        <Grid RowSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="132" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Artwork -->
+                            <controls:GameCoverImage
+                                Grid.Row="0"
+                                CornerRadius="6"
+                                ImageUrl="{x:Bind CoverImageUrl, Mode=OneWay}"
+                                FallbackInitials="{x:Bind Initials}" />
+
+                            <!-- Game Info -->
+                            <StackPanel Grid.Row="1" Spacing="4">
+                                <TextBlock
+                                    Text="{x:Bind Name}"
+                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                    MaxLines="2"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="WrapWholeWords" />
+
+                                <TextBlock
+                                    Text="{x:Bind ThemesSummary}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    MaxLines="1"
+                                    TextTrimming="CharacterEllipsis" />
+
+                                <TextBlock
+                                    Text="{x:Bind ExecutableStatusDisplay, Mode=OneWay}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                    MaxLines="1"
+                                    TextTrimming="CharacterEllipsis" />
+
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <TextBlock
+                                        Text="{x:Bind LastPlayedDisplay, Mode=OneWay}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                                    <TextBlock
+                                        Text="·"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                                    <TextBlock
+                                        Text="{x:Bind PlayCountDisplay, Mode=OneWay}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Card Actions -->
+                            <Grid Grid.Row="2" ColumnSpacing="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Style="{ThemeResource AccentButtonStyle}"
+                                    Tag="{x:Bind}"
+                                    Click="PlayButton_Click">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE768;" FontSize="12" />
+                                        <TextBlock Text="Play" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button
+                                    Grid.Column="1"
+                                    Tag="{x:Bind}"
+                                    Click="ConfigureExeButton_Click"
+                                    ToolTipService.ToolTip="Set executable (.exe)">
+                                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8E5;" FontSize="13" />
+                                </Button>
+
+                                <Button
+                                    Grid.Column="2"
+                                    Tag="{x:Bind}"
+                                    Click="RemoveButton_Click"
+                                    ToolTipService.ToolTip="Remove from library">
+                                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE74D;" FontSize="13" />
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </Grid>
+</Page>
+

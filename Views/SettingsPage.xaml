@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="voltrex_quest.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Padding="32,24,32,36" Spacing="24" MaxWidth="860" HorizontalAlignment="Left">
+            <StackPanel Spacing="4">
+                <TextBlock Text="Settings" Style="{ThemeResource TitleLargeTextBlockStyle}" />
+                <TextBlock
+                    Text="Configure discovery defaults, launch behavior, and local storage."
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+
+            <InfoBar
+                IsOpen="{x:Bind ViewModel.HasStatusMessage, Mode=OneWay}"
+                Severity="Informational"
+                Message="{x:Bind ViewModel.StatusMessage, Mode=OneWay}"
+                IsClosable="False" />
+
+            <!-- Discovery & Library -->
+            <StackPanel Spacing="10">
+                <TextBlock Text="Catalog &amp; Library" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <Border
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="18,14">
+                    <Grid ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Default Discover Filter" Style="{ThemeResource BodyTextBlockStyle}" />
+                            <TextBlock
+                                Text="Choose which games are shown first when opening Discover Games."
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <ComboBox
+                            Grid.Column="1"
+                            Width="190"
+                            ItemsSource="{x:Bind ViewModel.DiscoverFilterOptions}"
+                            SelectedItem="{x:Bind ViewModel.SelectedDiscoverFilter, Mode=TwoWay}"
+                            DisplayMemberPath="Label" />
+                    </Grid>
+                </Border>
+
+                <Border
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="18,14">
+                    <Grid ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Default Library Sort Order" Style="{ThemeResource BodyTextBlockStyle}" />
+                            <TextBlock
+                                Text="Default sorting applied when opening My Games."
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <ComboBox
+                            Grid.Column="1"
+                            Width="190"
+                            ItemsSource="{x:Bind ViewModel.LibrarySortOptions}"
+                            SelectedItem="{x:Bind ViewModel.SelectedLibrarySort, Mode=TwoWay}"
+                            DisplayMemberPath="Label" />
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <!-- Launching & Confirmation -->
+            <StackPanel Spacing="10">
+                <TextBlock Text="Behavior" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <Border
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="18,14">
+                    <Grid ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Confirm before removing games" Style="{ThemeResource BodyTextBlockStyle}" />
+                            <TextBlock
+                                Text="Show a confirmation dialog when removing a game from My Games."
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            OnContent=""
+                            OffContent=""
+                            MinWidth="0"
+                            IsOn="{x:Bind ViewModel.ConfirmBeforeRemove, Mode=TwoWay}" />
+                    </Grid>
+                </Border>
+
+                <Border
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="18,14">
+                    <Grid ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Prompt for executable when launching unconfigured games" Style="{ThemeResource BodyTextBlockStyle}" />
+                            <TextBlock
+                                Text="Ask to select a local .exe before falling back to Steam URI launch."
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            Grid.Column="1"
+                            OnContent=""
+                            OffContent=""
+                            MinWidth="0"
+                            IsOn="{x:Bind ViewModel.PromptForExecutableOnPlay, Mode=TwoWay}" />
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <!-- Local Persistence & Data -->
+            <StackPanel Spacing="10">
+                <TextBlock Text="Storage &amp; Data" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <Border
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="18,14">
+                    <Grid ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Personal Library Persistence" Style="{ThemeResource BodyTextBlockStyle}" />
+                            <TextBlock
+                                Text="{x:Bind ViewModel.LibraryStatsText, Mode=OneWay}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <TextBlock
+                                Text="{x:Bind ViewModel.LibraryFilePath}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                IsTextSelectionEnabled="True"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <Button
+                            Grid.Column="1"
+                            Content="Open Data Folder"
+                            VerticalAlignment="Center"
+                            Command="{x:Bind ViewModel.OpenDataFolderCommand}" />
+                    </Grid>
+                </Border>
+
+                <Border
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="18,14">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Bundled Game Catalog (Read-Only)" Style="{ThemeResource BodyTextBlockStyle}" />
+                        <TextBlock
+                            Text="{x:Bind ViewModel.CatalogStatsText, Mode=OneWay}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock
+                            Text="{x:Bind ViewModel.CatalogFilePath}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            IsTextSelectionEnabled="True"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+                <Border
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="18,14">
+                    <Grid ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Manage Local History" Style="{ThemeResource BodyTextBlockStyle}" />
+                            <TextBlock
+                                Text="Reset recorded play sessions or clear all games from your personal library."
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                            <Button Content="Clear Play History" Click="ClearHistoryButton_Click" />
+                            <Button Content="Clear Library" Click="ClearLibraryButton_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <!-- About -->
+            <Border
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="18,14">
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Voltrex Quest" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                    <TextBlock
+                        Text="WinUI 3 Desktop Game &amp; Quest Session Manager"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
+

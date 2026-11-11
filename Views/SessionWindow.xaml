@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="voltrex_quest.Views.SessionWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:voltrex_quest.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Game Session — Voltrex Quest">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid x:Name="RootGrid" RequestedTheme="Dark">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Custom Title Bar -->
+        <Grid
+            x:Name="SessionTitleBar"
+            Grid.Row="0"
+            Padding="16,0,140,0"
+            VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7FC;" FontSize="14" />
+                <TextBlock
+                    Text="Game Session Monitor"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Session Content -->
+        <Grid Grid.Row="1" Padding="24,12,24,24" RowSpacing="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Game Header Card -->
+            <Border
+                Grid.Row="0"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="16">
+                <Grid ColumnSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="72" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <controls:GameCoverImage
+                        Width="72"
+                        Height="72"
+                        CornerRadius="6"
+                        ImageUrl="{x:Bind ViewModel.Session.CoverImageUrl, Mode=OneWay}"
+                        FallbackInitials="{x:Bind ViewModel.Session.Initials}" />
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                        <TextBlock
+                            Text="{x:Bind ViewModel.Session.GameName}"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                            TextTrimming="CharacterEllipsis"
+                            MaxLines="2" />
+                        <TextBlock
+                            Text="{x:Bind ViewModel.Session.ExecutablePath}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            TextTrimming="CharacterEllipsis"
+                            MaxLines="1" />
+                    </StackPanel>
+
+                    <Border
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Padding="12,5"
+                        CornerRadius="4"
+                        Background="{x:Bind ViewModel.StatusBadgeBackground, Mode=OneWay}">
+                        <TextBlock
+                            Text="{x:Bind ViewModel.StatusText, Mode=OneWay}"
+                            Foreground="{x:Bind ViewModel.StatusBadgeForeground, Mode=OneWay}"
+                            FontWeight="SemiBold"
+                            FontSize="12" />
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Status / Error Detail Banner -->
+            <InfoBar
+                x:Name="SessionDetailBar"
+                Grid.Row="1"
+                IsOpen="True"
+                IsClosable="False"
+                Visibility="{x:Bind ViewModel.StatusDetailVisibility, Mode=OneWay}"
+                Message="{x:Bind ViewModel.StatusDetailText, Mode=OneWay}" />
+
+            <!-- Live Process Telemetry -->
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                <Border
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="18,16">
+                    <Grid ColumnSpacing="20" RowSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.Column="0" Spacing="3">
+                            <TextBlock Text="ELAPSED DURATION" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <TextBlock Text="{x:Bind ViewModel.ElapsedText, Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1" Spacing="3">
+                            <TextBlock Text="PROCESS ID (PID)" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <TextBlock Text="{x:Bind ViewModel.ProcessIdText, Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}" IsTextSelectionEnabled="True" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Spacing="3">
+                            <TextBlock Text="PROCESS NAME" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <TextBlock Text="{x:Bind ViewModel.ProcessNameText, Mode=OneWay}" Style="{ThemeResource BodyStrongTextBlockStyle}" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1" Spacing="3">
+                            <TextBlock Text="SESSION START TIME" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <TextBlock Text="{x:Bind ViewModel.StartedAtText}" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            Spacing="3"
+                            Visibility="{x:Bind ViewModel.OutcomeRowVisibility, Mode=OneWay}">
+                            <TextBlock Text="SESSION OUTCOME" Style="{ThemeResource CaptionTextBlockStyle}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <TextBlock Text="{x:Bind ViewModel.OutcomeText, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </ScrollViewer>
+
+            <!-- Footer Actions & Boundary Note -->
+            <Grid Grid.Row="3" ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    Text="Discord detects supported game activity independently."
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                    VerticalAlignment="Center"
+                    TextWrapping="Wrap" />
+
+                <Button
+                    Grid.Column="1"
+                    Content="{x:Bind ViewModel.StopButtonText, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanStop, Mode=OneWay}"
+                    Style="{ThemeResource AccentButtonStyle}"
+                    Click="StopSessionButton_Click" />
+
+                <Button
+                    Grid.Column="2"
+                    Content="Close Window"
+                    Click="CloseWindowButton_Click" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
+

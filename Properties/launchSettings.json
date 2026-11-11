@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "voltrex-quest (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "voltrex-quest (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
