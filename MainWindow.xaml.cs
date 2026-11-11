@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.IO;
 using System.Linq;
 using voltrex_quest.ViewModels;
 using voltrex_quest.Views;
@@ -66,6 +67,12 @@ public sealed partial class MainWindow : Window
         var appWindow = AppWindow.GetFromWindowId(windowId);
         appWindow.Title = "Voltrex Quest";
         appWindow.Resize(new SizeInt32(1260, 800));
+
+        var iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "AppIcon.ico");
+        if (File.Exists(iconPath))
+        {
+            appWindow.SetIcon(iconPath);
+        }
 
         if (appWindow.TitleBar is not null)
         {

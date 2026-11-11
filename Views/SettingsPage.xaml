@@ -230,14 +230,35 @@
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="8"
-                Padding="18,14">
-                <StackPanel Spacing="4">
-                    <TextBlock Text="Voltrex Quest" Style="{ThemeResource BodyStrongTextBlockStyle}" />
-                    <TextBlock
-                        Text="WinUI 3 Desktop Game &amp; Quest Session Manager"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                </StackPanel>
+                Padding="18,16">
+                <Grid ColumnSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        Width="52"
+                        Height="52"
+                        Background="#000000"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                        <Image
+                            Source="ms-appx:///Assets/VoltrexQuestLogo.png"
+                            Stretch="UniformToFill" />
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                        <TextBlock Text="Voltrex Quest" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                        <TextBlock
+                            Text="WinUI 3 Desktop Game &amp; Quest Session Manager"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock
+                            Text="Developed by Mohomed Ziard | Voltrex Digital"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                    </StackPanel>
+                </Grid>
             </Border>
         </StackPanel>
     </ScrollViewer>

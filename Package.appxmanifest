@@ -16,8 +16,8 @@
   <mp:PhoneIdentity PhoneProductId="81f7d038-7341-4f2d-832a-43407783eb1c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>voltrex-quest</DisplayName>
-    <PublisherDisplayName>mohom</PublisherDisplayName>
+    <DisplayName>Voltrex Quest</DisplayName>
+    <PublisherDisplayName>Voltrex Digital</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -35,13 +35,13 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="voltrex-quest"
-        Description="voltrex-quest"
-        BackgroundColor="transparent"
+        DisplayName="Voltrex Quest"
+        Description="WinUI 3 Desktop Game &amp; Quest Session Manager"
+        BackgroundColor="#000000"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#000000" />
       </uap:VisualElements>
     </Application>
   </Applications>

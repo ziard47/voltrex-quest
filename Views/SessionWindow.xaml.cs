@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using voltrex_quest.Models;
 using voltrex_quest.ViewModels;
 using Windows.Graphics;
@@ -56,6 +57,12 @@ public sealed partial class SessionWindow : Window
         var appWindow = AppWindow.GetFromWindowId(windowId);
         appWindow.Title = $"{ViewModel.Session.GameName} — Session Monitor";
         appWindow.Resize(new SizeInt32(720, 620));
+
+        var iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "AppIcon.ico");
+        if (File.Exists(iconPath))
+        {
+            appWindow.SetIcon(iconPath);
+        }
 
         if (appWindow.TitleBar is not null)
         {
