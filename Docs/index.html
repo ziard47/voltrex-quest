@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voltrex Quest — WinUI 3 Game &amp; Quest Session Manager</title>
+  <meta
+    name="description"
+    content="Voltrex Quest is a native Windows 11 WinUI 3 desktop application for browsing Discord Quest-supported games, managing a personal game library, and monitoring launched game sessions." />
+  <link rel="icon" type="image/x-icon" href="assets/AppIcon.ico" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="Voltrex Quest Home">
+        <span class="brand-mark">
+          <img src="assets/VoltrexQuestLogo.png" alt="Voltrex Quest Logo" width="32" height="32" />
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">Voltrex Quest</span>
+          <span class="brand-sub">Voltrex Digital</span>
+        </span>
+      </a>
+
+      <button
+        type="button"
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-expanded="false"
+        aria-controls="primary-nav"
+        aria-label="Toggle navigation menu">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+
+      <nav class="site-nav" id="primary-nav" aria-label="Primary navigation">
+        <a href="#features">Features</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#releases">Release Notes</a>
+        <a href="#requirements">Specifications</a>
+        <a
+          href="https://github.com/ziard47/voltrex-quest"
+          class="nav-repo"
+          target="_blank"
+          rel="noopener noreferrer">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
+          <span>GitHub</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="meta-strip">
+            <span class="meta-badge" id="hero-version-badge">
+              <i class="fa-solid fa-tag" aria-hidden="true"></i>
+              <span>v1.0.0</span>
+            </span>
+            <span class="meta-divider" aria-hidden="true"></span>
+            <span class="meta-platform">
+              <i class="fa-brands fa-windows" aria-hidden="true"></i>
+              <span>Windows 10 / 11 (x64)</span>
+            </span>
+          </div>
+
+          <h1>Centralized game library &amp; Quest session monitor for Windows.</h1>
+          <p class="hero-lead">
+            Browse the bundled Discord-detectable game catalog, maintain a persistent personal library,
+            and launch genuine executables or local stub processes with live WinUI 3 session tracking.
+          </p>
+
+          <div class="hero-actions">
+            <a
+              id="download-primary-btn"
+              href="https://github.com/ziard47/voltrex-quest/releases"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer">
+              <i class="fa-solid fa-download" aria-hidden="true"></i>
+              <span id="download-btn-label">Download Windows Installer</span>
+            </a>
+            <a
+              href="https://github.com/ziard47/voltrex-quest/releases"
+              class="btn btn-secondary"
+              target="_blank"
+              rel="noopener noreferrer">
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
+              <span>View All Releases</span>
+            </a>
+          </div>
+
+          <p class="hero-file-note" id="installer-meta-line">
+            <i class="fa-solid fa-box-archive" aria-hidden="true"></i>
+            <span>Self-contained Inno Setup (.exe) &middot; No separate .NET runtime required</span>
+          </p>
+        </div>
+
+        <aside class="hero-panel" aria-label="Application overview panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <img src="assets/VoltrexQuestLogo.png" alt="" width="24" height="24" class="panel-icon" />
+              <span>Voltrex Quest &mdash; Build Summary</span>
+            </div>
+            <span class="panel-tag">WinUI 3</span>
+          </div>
+
+          <dl class="spec-list">
+            <div class="spec-row">
+              <dt><i class="fa-solid fa-code-branch" aria-hidden="true"></i> Release Tag</dt>
+              <dd id="panel-version">v1.0.0</dd>
+            </div>
+            <div class="spec-row">
+              <dt><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Package</dt>
+              <dd id="panel-asset">Voltrex-Quest-Setup-1.0.0-win-x64.exe</dd>
+            </div>
+            <div class="spec-row">
+              <dt><i class="fa-solid fa-hard-drive" aria-hidden="true"></i> Installer Size</dt>
+              <dd id="panel-size">~61.1 MB</dd>
+            </div>
+            <div class="spec-row">
+              <dt><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Stack</dt>
+              <dd>.NET 8 &middot; Windows App SDK</dd>
+            </div>
+            <div class="spec-row">
+              <dt><i class="fa-solid fa-database" aria-hidden="true"></i> Persistence</dt>
+              <dd>%LOCALAPPDATA%\VoltrexQuest</dd>
+            </div>
+            <div class="spec-row">
+              <dt><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i> Updates</dt>
+              <dd>In-App GitHub Releases Updater</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-eyebrow">Architecture &amp; Modules</span>
+          <h2>Built with native Windows 11 components.</h2>
+          <p>
+            Every screen runs on MVVM ViewModels, local JSON storage, and Windows process APIs without
+            cloud accounts or external telemetry.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-house" aria-hidden="true"></i>
+            </div>
+            <h3>Home Dashboard</h3>
+            <p>
+              Displays live counts for saved games and catalog availability alongside recently played
+              sessions and recently added library entries.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-compass" aria-hidden="true"></i>
+            </div>
+            <h3>Discover Games</h3>
+            <p>
+              Searches the bundled <code>gamelist.json</code> catalog locally by name, alias, or executable
+              with Windows and Overlay filters in a 4-column card grid.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
+            </div>
+            <h3>My Games Library</h3>
+            <p>
+              Persists added titles, play counts, and custom launch paths in
+              <code>library.json</code> with sorting, search, and Steam URI fallback.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-desktop" aria-hidden="true"></i>
+            </div>
+            <h3>Game Session Monitor</h3>
+            <p>
+              Opens a dedicated WinUI 3 companion window showing Process ID, process name, lifecycle
+              state, elapsed duration, and safe session termination.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-terminal" aria-hidden="true"></i>
+            </div>
+            <h3>Dummy Game Runner</h3>
+            <p>
+              Includes a zero-dependency Win32 C++ stub executable copied on demand under the target
+              binary name (such as <code>wwm.exe</code>) for local testing.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+            </div>
+            <h3>GitHub Releases Updater</h3>
+            <p>
+              Checks <code>ziard47/voltrex-quest</code> directly from Settings, previews release notes in
+              a modal dialog, and runs the Inno Setup installer.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workflow -->
+    <section id="workflow" class="section section-tinted">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-eyebrow">Quick Start</span>
+          <h2>Install and launch in three steps.</h2>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-top">
+              <span class="step-num">01</span>
+              <i class="fa-solid fa-download" aria-hidden="true"></i>
+            </div>
+            <h3>Run the Windows Installer</h3>
+            <p>
+              Download <code>Voltrex-Quest-Setup-win-x64.exe</code> and install per-user or
+              system-wide. The .NET 8 and Windows App SDK runtimes are bundled.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-top">
+              <span class="step-num">02</span>
+              <i class="fa-solid fa-folder-plus" aria-hidden="true"></i>
+            </div>
+            <h3>Add Games to My Games</h3>
+            <p>
+              Filter <strong>Discover Games</strong> by name or support tag and add titles to your
+              personal library without modifying the read-only catalog.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-top">
+              <span class="step-num">03</span>
+              <i class="fa-solid fa-play" aria-hidden="true"></i>
+            </div>
+            <h3>Launch &amp; Monitor Sessions</h3>
+            <p>
+              Select a local <code>.exe</code>, launch via Steam, or run the dummy game window while
+              tracking real process state and history.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Release Notes -->
+    <section id="releases" class="section">
+      <div class="container">
+        <div class="section-head section-head-split">
+          <div>
+            <span class="section-eyebrow">Changelog</span>
+            <h2>Latest GitHub Release</h2>
+          </div>
+          <a
+            href="https://github.com/ziard47/voltrex-quest/releases"
+            class="inline-link"
+            target="_blank"
+            rel="noopener noreferrer">
+            <span>Browse release archive</span>
+            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <div class="release-box">
+          <div class="release-box-header">
+            <div>
+              <h3 id="release-title">Voltrex Quest v1.0.0</h3>
+              <p class="release-meta" id="release-meta">
+                Baseline release &middot; ziard47/voltrex-quest
+              </p>
+            </div>
+            <span class="release-status" id="release-status-pill">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              <span id="release-status-text">Stable Release</span>
+            </span>
+          </div>
+
+          <div class="release-notes-body" id="release-notes-content">
+            <p>
+              Initial release of Voltrex Quest for Windows x64 featuring Home Dashboard analytics,
+              offline Discover Games catalog filtering, persistent My Games library, dedicated
+              Game Session Monitor window, Dummy Game Runner, and built-in GitHub Releases updater.
+            </p>
+          </div>
+
+          <div class="release-box-footer">
+            <div class="asset-summary" id="release-asset-summary">
+              <i class="fa-solid fa-file-shield" aria-hidden="true"></i>
+              <span>Installer: <code>Voltrex-Quest-Setup-1.0.0-win-x64.exe</code></span>
+            </div>
+            <a
+              id="release-page-link"
+              href="https://github.com/ziard47/voltrex-quest/releases"
+              class="btn btn-outline"
+              target="_blank"
+              rel="noopener noreferrer">
+              <i class="fa-brands fa-github" aria-hidden="true"></i>
+              <span>Open on GitHub</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section id="requirements" class="section section-tinted">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-eyebrow">Environment &amp; Build</span>
+          <h2>Technical Specifications</h2>
+        </div>
+
+        <div class="specs-table-wrap">
+          <table class="specs-table">
+            <tbody>
+              <tr>
+                <th><i class="fa-brands fa-windows" aria-hidden="true"></i> Operating System</th>
+                <td>Windows 10 version 1809 (Build 17763) or later, Windows 11 (x64)</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-microchip" aria-hidden="true"></i> Architecture &amp; Runtime</th>
+                <td>x64 &middot; Self-contained .NET 8 &amp; Windows App SDK 2.6.5 (WinUI 3)</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-box-open" aria-hidden="true"></i> Installer Format</th>
+                <td>Inno Setup 6 executable supporting per-user or administrator installation</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-folder-open" aria-hidden="true"></i> Local Data Directory</th>
+                <td>
+                  <code class="code-line">%LOCALAPPDATA%\VoltrexQuest\</code>
+                  <span class="muted-note">(<code>library.json</code>, <code>settings.json</code>)</span>
+                </td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-hammer" aria-hidden="true"></i> Build From Source</th>
+                <td><code class="code-line">.\Installer\build-installer.ps1 -Version 1.0.0</code></td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> License &amp; Source</th>
+                <td>
+                  Open source at
+                  <a href="https://github.com/ziard47/voltrex-quest" target="_blank" rel="noopener noreferrer">
+                    github.com/ziard47/voltrex-quest
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/VoltrexQuestLogo.png" alt="Voltrex Quest" width="28" height="28" class="footer-logo" />
+        <div>
+          <p class="footer-title">Voltrex Quest</p>
+          <p class="footer-credit">Developed by Mohomed Ziard | Voltrex Digital</p>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <a href="https://github.com/ziard47/voltrex-quest" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
+          <span>Repository</span>
+        </a>
+        <a href="https://github.com/ziard47/voltrex-quest/releases" target="_blank" rel="noopener noreferrer">
+          <i class="fa-solid fa-tags" aria-hidden="true"></i>
+          <span>Releases</span>
+        </a>
+        <a href="https://github.com/ziard47/voltrex-quest/issues" target="_blank" rel="noopener noreferrer">
+          <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+          <span>Issues</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
