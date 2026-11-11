@@ -41,6 +41,14 @@
 dotnet build voltrex-quest.slnx -p:Platform=x64
 ```
 
+### Build Windows Installer (Inno Setup 6)
+
+```powershell
+.\Installer\build-installer.ps1 -Version 1.0.0
+```
+
+This publishes a self-contained unpackaged `win-x64` build and compiles [Installer/VoltrexQuest.iss](Installer/VoltrexQuest.iss) into `Installer/Output/Voltrex-Quest-Setup-1.0.0-win-x64.exe`.
+
 ### Project Layout
 
 ```text
@@ -51,6 +59,7 @@ voltrex-quest/
 ├── Data/                   # Bundled gamelist.json catalog
 ├── DummyGameRunner/        # Native Win32 C++ dummy game window source & binary
 ├── Helpers/                # Responsive grid layout helpers
+├── Installer/              # Inno Setup script (VoltrexQuest.iss) & build script
 ├── Models/                 # Game, Session, Library, and History models
 ├── Services/               # Catalog, Library, Launcher, Settings, and Session History services
 ├── ViewModels/             # MVVM ViewModels for Main, Home, Discover, Library, Settings, Session
